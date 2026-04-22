@@ -1,9 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:reactive_forms/reactive_forms.dart';
+import '../core/app_colors.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+  SignupScreen({super.key});
 
-  static const darkBlue = Color(0xFF0D47A1);
+  final FormGroup form = FormGroup(
+    {
+      'firstName': FormControl<String>(validators: [Validators.required]),
+      'lastName': FormControl<String>(validators: [Validators.required]),
+      'email': FormControl<String>(
+        validators: [Validators.required, Validators.email],
+      ),
+      'password': FormControl<String>(
+        validators: [Validators.required, Validators.minLength(6)],
+      ),
+      'retypePassword': FormControl<String>(validators: [Validators.required]),
+      'role': FormControl<String>(validators: [Validators.required]),
+    },
+    validators: [Validators.mustMatch('password', 'retypePassword')],
+  );
+
+  InputDecoration _dec(String label) {
+    return InputDecoration(
+      labelText: label,
+      border: const OutlineInputBorder(),
+      prefixIcon: const Icon(Icons.person),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,82 +35,87 @@ class SignupScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("Create Account")),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Image.asset('assets/images/exam_fever_logo.png', width: 200),
+        child: ReactiveForm(
+          formGroup: form,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Image.asset('assets/images/exam_fever_logo.png', width: 200),
 
-            const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-            const TextField(
-              decoration: InputDecoration(
-                labelText: "First Name",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                ReactiveTextField<String>(
+                  formControlName: 'firstName',
+                  decoration: _dec("First Name"),
+                ),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-            const TextField(
-              decoration: InputDecoration(
-                labelText: "Last Name",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                ReactiveTextField<String>(
+                  formControlName: 'lastName',
+                  decoration: _dec("Last Name"),
+                ),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-            const TextField(
-              decoration: InputDecoration(
-                labelText: "Email",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                ReactiveTextField<String>(
+                  formControlName: 'email',
+                  decoration: _dec("Email"),
+                ),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-            const TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: "Password",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                ReactiveTextField<String>(
+                  formControlName: 'password',
+                  obscureText: true,
+                  decoration: _dec("Password"),
+                ),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-            const TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: "Retype Password",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                ReactiveTextField<String>(
+                  formControlName: 'retypePassword',
+                  obscureText: true,
+                  decoration: _dec("Retype Password"),
+                ),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-            DropdownButtonFormField(
-              decoration: const InputDecoration(
-                labelText: "Select Role",
-                border: OutlineInputBorder(),
-              ),
-              items: const [
-                DropdownMenuItem(value: "student", child: Text("Student")),
-                DropdownMenuItem(value: "tutor", child: Text("Tutor")),
+                ReactiveDropdownField<String>(
+                  formControlName: 'role',
+                  decoration: _dec("Select Role"),
+                  items: const [
+                    DropdownMenuItem(value: "student", child: Text("Student")),
+                    DropdownMenuItem(value: "tutor", child: Text("Tutor")),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 220, 179, 15),
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  onPressed: () {
+                    if (form.valid) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/login',
+                        (route) => false,
+                      );
+                    } else {
+                      form.markAllAsTouched();
+                    }
+                  },
+                  child: const Text(
+                    "Create Account",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
               ],
-              onChanged: (value) {},
             ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: darkBlue,
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              onPressed: () {},
-              child: const Text("Create Account"),
-            ),
-          ],
+          ),
         ),
       ),
     );
