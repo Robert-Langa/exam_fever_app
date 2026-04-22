@@ -5,7 +5,6 @@ import 'view/forgot_password_screen.dart';
 import 'view/splash_screen.dart';
 import 'view/student_home.dart';
 import 'view/tutor_home.dart';
-import 'view/upload_notes_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,17 +17,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       initialRoute: '/splash',
-
       routes: {
-        '/splash': (context) => const SplashScreen(),
+        '/splash': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignupScreen(),
         '/forgot': (context) => ForgotPasswordScreen(),
-        '/student': (context) => const StudentHome(),
-        '/tutor': (context) => const TutorHome(),
-        '/upload': (context) => UploadNotesScreen(),
+        '/student': (context) => StudentHome(),
+        '/tutor': (context) => TutorHome(),
       },
     );
   }
