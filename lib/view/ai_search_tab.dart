@@ -27,29 +27,41 @@ class _AiSearchTabState extends State<AiSearchTab> {
         Expanded(
           child: Center(
             child: Text(
-              result.isEmpty ? "AI Search Coming Soon 🤖" : result,
+              result.isEmpty ? "AI Search Coming Soon" : result,
               style: TextStyle(fontSize: 16),
             ),
           ),
         ),
 
         Padding(
-          padding: EdgeInsets.all(10),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: controller,
-                  decoration: InputDecoration(
-                    hintText: "Ask something...",
-                  ),
-                ),
+          padding: EdgeInsets.fromLTRB(12, 10, 12, 20),
+          child: Material(
+            elevation: 6,
+            borderRadius: BorderRadius.circular(30),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
               ),
-              IconButton(
-                onPressed: search,
-                icon: Icon(Icons.send),
-              )
-            ],
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        hintText: "Ask something...",
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: search,
+                    icon: Icon(Icons.send),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ],
