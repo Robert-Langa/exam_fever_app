@@ -1,60 +1,92 @@
 import 'package:flutter/material.dart';
+import '../core/app_style.dart';
+import '../core/app_colors.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+  ForgotPasswordScreen({super.key});
 
-  static const darkBlue = Color(0xFF0D47A1);
+  final TextEditingController email = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/exam_fever_logo.png', width: 200),
+      appBar: AppBar(
+        title: const Text("Forgot Password"),
+        backgroundColor: AppColors.primary,
+      ),
 
-            const SizedBox(height: 20),
+      body: Container(
+        decoration: AppStyles.background(),
 
-            const Text(
-              "Forgot your password?",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
 
-            const SizedBox(height: 10),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: AppStyles.glassCard(),
 
-            const Text(
-              "Please enter the email address you'd like your password reset information sent to",
-              textAlign: TextAlign.center,
-            ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  /// TITLE
+                  const Text(
+                    "Forgot Your Password?",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
 
-            const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
-            const TextField(
-              decoration: InputDecoration(
-                labelText: "Email address",
-                border: OutlineInputBorder(),
+                  const Text(
+                    "Please enter the email address you'd like your password reset information sent to",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  /// EMAIL FIELD
+                  TextField(
+                    controller: email,
+                    decoration: AppStyles.input("Email Address"),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  /// RESET BUTTON
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: AppStyles.primaryButton(),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Send Reset Link"),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  /// BACK BUTTON
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Back to Login",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
               ),
             ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: darkBlue,
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              onPressed: () {},
-              child: const Text("Request reset link"),
-            ),
-
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Back to login"),
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -1,79 +1,92 @@
 import 'package:flutter/material.dart';
+import '../core/app_style.dart';
+import 'home_page.dart';
 import 'signup_screen.dart';
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
 
-  static const darkBlue = Color(0xFF0D47A1);
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/exam_fever_logo.png', width: 260),
+      body: Container(
+        decoration: AppStyles.background(),
 
-            const SizedBox(height: 30),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
 
-            TextField(
-              decoration: InputDecoration(
-                labelText: "Email",
-                labelStyle: const TextStyle(color: darkBlue),
-                border: const OutlineInputBorder(),
-              ),
-            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                /// LOGO
+                Image.asset('assets/images/exam_fever_logo.png', width: 180),
 
-            const SizedBox(height: 10),
+                const SizedBox(height: 40),
 
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: "Password",
-                labelStyle: const TextStyle(color: darkBlue),
-                border: const OutlineInputBorder(),
-              ),
-            ),
+                /// EMAIL
+                TextField(
+                  controller: emailController,
+                  decoration: AppStyles.input("Email"),
+                ),
 
-            const SizedBox(height: 20),
+                const SizedBox(height: 12),
 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: darkBlue,
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              onPressed: () {},
-              child: const Text("Login"),
-            ),
+                /// PASSWORD
+                TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: AppStyles.input("Password"),
+                ),
 
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SignupScreen()),
-                );
-              },
-              child: const Text("Sign up", style: TextStyle(color: darkBlue)),
-            ),
+                const SizedBox(height: 25),
 
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ForgotPasswordScreen(),
+                /// LOGIN BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: AppStyles.primaryButton(),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomePage()),
+                      );
+                    },
+                    child: const Text("Login"),
                   ),
-                );
-              },
-              child: const Text(
-                "Forgot password?",
-                style: TextStyle(color: darkBlue),
-              ),
+                ),
+
+                const SizedBox(height: 10),
+
+                /// SIGN UP
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => SignupScreen()),
+                    );
+                  },
+                  child: const Text("Sign Up"),
+                ),
+
+                /// FORGOT PASSWORD
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => ForgotPasswordScreen()),
+                    );
+                  },
+                  child: const Text("Forgot Password?"),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

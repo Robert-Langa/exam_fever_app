@@ -1,92 +1,108 @@
 import 'package:flutter/material.dart';
+import '../core/app_style.dart';
+import '../core/app_colors.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+  SignupScreen({super.key});
 
-  static const darkBlue = Color(0xFF0D47A1);
+  final TextEditingController firstName = TextEditingController();
+  final TextEditingController lastName = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Create Account")),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Image.asset('assets/images/exam_fever_logo.png', width: 200),
+      appBar: AppBar(
+        title: const Text("Sign Up"),
+        backgroundColor: AppColors.primary,
+      ),
 
-            const SizedBox(height: 20),
+      body: Container(
+        decoration: AppStyles.background(),
 
-            const TextField(
-              decoration: InputDecoration(
-                labelText: "First Name",
-                border: OutlineInputBorder(),
-              ),
-            ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
 
-            const SizedBox(height: 10),
+            child: Column(
+              children: [
+                /// TITLE
+                const Text(
+                  "Create a New Account",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
 
-            const TextField(
-              decoration: InputDecoration(
-                labelText: "Last Name",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                const SizedBox(height: 25),
 
-            const SizedBox(height: 10),
+                /// INPUTS
+                TextField(
+                  controller: firstName,
+                  decoration: AppStyles.input("First Name"),
+                ),
 
-            const TextField(
-              decoration: InputDecoration(
-                labelText: "Email",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                const SizedBox(height: 12),
 
-            const SizedBox(height: 10),
+                TextField(
+                  controller: lastName,
+                  decoration: AppStyles.input("Last Name"),
+                ),
 
-            const TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: "Password",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                const SizedBox(height: 12),
 
-            const SizedBox(height: 10),
+                TextField(
+                  controller: email,
+                  decoration: AppStyles.input("Email"),
+                ),
 
-            const TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: "Retype Password",
-                border: OutlineInputBorder(),
-              ),
-            ),
+                const SizedBox(height: 12),
 
-            const SizedBox(height: 10),
+                TextField(
+                  controller: password,
+                  obscureText: true,
+                  decoration: AppStyles.input("Password"),
+                ),
 
-            DropdownButtonFormField(
-              decoration: const InputDecoration(
-                labelText: "Select Role",
-                border: OutlineInputBorder(),
-              ),
-              items: const [
-                DropdownMenuItem(value: "student", child: Text("Student")),
-                DropdownMenuItem(value: "tutor", child: Text("Tutor")),
+                const SizedBox(height: 12),
+
+                TextField(
+                  controller: confirmPassword,
+                  obscureText: true,
+                  decoration: AppStyles.input("Confirm Password"),
+                ),
+
+                const SizedBox(height: 25),
+
+                /// BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: AppStyles.primaryButton(),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Create Account"),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                /// BACK
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Back to Login"),
+                ),
               ],
-              onChanged: (value) {},
             ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: darkBlue,
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              onPressed: () {},
-              child: const Text("Create Account"),
-            ),
-          ],
+          ),
         ),
       ),
     );
