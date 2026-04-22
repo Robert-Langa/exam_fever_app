@@ -12,13 +12,21 @@ class DrawerScaffold extends StatelessWidget {
     required this.body,
   });
 
+  void logout(BuildContext context) {
+    Navigator.pop(context); // close drawer first
+
+    Future.delayed(Duration(milliseconds: 200), () {
+      Navigator.pushReplacementNamed(context, '/login');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
           title,
-          style: TextStyle(color: Colors.orange), // ✅ ONLY CHANGE
+          style: TextStyle(color: Colors.orange),
         ),
         backgroundColor: Color(0xFF0D47A1),
         iconTheme: IconThemeData(color: Colors.white),
@@ -52,9 +60,7 @@ class DrawerScaffold extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text("Logout"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => logout(context),
             ),
           ],
         ),
