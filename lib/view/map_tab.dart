@@ -23,8 +23,8 @@ class MapTab extends StatelessWidget {
           Expanded(
             child: TabBarView(
               children: [
-                 ViewMap(), 
-                 ActiveQuestions(),
+                 ViewMap(),        // Google Map with student pins
+                 ActiveQuestions(), // List of questions (moved here)
               ],
             ),
           ),

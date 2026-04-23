@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import '../core/app_colors.dart';
 
@@ -6,14 +7,16 @@ class ViewMap extends StatefulWidget {
   const ViewMap({super.key});
 
   @override
-  ViewMapState createState() => ViewMapState();
+  State<ViewMap> createState() => _ViewMapState();
 }
 
-class ViewMapState extends State<ViewMap> {
-  String locationMessage = "Fetching student locations...";
-  Position? currentPosition;
+class _ViewMapState extends State<ViewMap> {
+  GoogleMapController? mapController;
+  LatLng? currentPosition;
+  String locationStatus = "Getting location...";
+  bool isLoading = true;
 
-  // List of student locations (simulated data)
+  // Student locations with coordinates
   final List<Map<String, dynamic>> studentLocations = [
     {
       "name": "John Smith",
@@ -49,30 +52,33 @@ class ViewMapState extends State<ViewMap> {
     },
   ];
 
+  // Set of markers to display on map
+  Set<Marker> _markers = {};
+
   @override
   void initState() {
     super.initState();
-    _getTutorLocation();
+    _getCurrentLocation();
   }
 
   // Get tutor's current location
-  Future<void> _getTutorLocation() async {
-    bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
-    LocationPermission permission;
-
-    if (!isServiceEnabled) {
+  Future<void> _getCurrentLocation() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
       setState(() {
-        locationMessage = "Location services are disabled.";
+        locationStatus = "Location services are disabled.";
+        isLoading = false;
       });
       return;
     }
 
-    permission = await Geolocator.checkPermission();
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         setState(() {
-          locationMessage = "Location permissions are denied.";
+          locationStatus = "Location permissions are denied.";
+          isLoading = false;
         });
         return;
       }
@@ -80,27 +86,74 @@ class ViewMapState extends State<ViewMap> {
 
     if (permission == LocationPermission.deniedForever) {
       setState(() {
-        locationMessage = "Location permissions are permanently denied.";
+        locationStatus = "Location permissions are permanently denied.";
+        isLoading = false;
       });
       return;
     }
 
     Position position = await Geolocator.getCurrentPosition();
     setState(() {
-      currentPosition = position;
-      locationMessage = "Found ${studentLocations.length} students near you!";
+      currentPosition = LatLng(position.latitude, position.longitude);
+      locationStatus = "Found ${studentLocations.length} students near you!";
+      isLoading = false;
+      _buildMarkers();
     });
   }
 
-  void _viewStudentDetails(Map<String, dynamic> student) {
+  // Build markers for all student locations
+  void _buildMarkers() {
+    Set<Marker> markers = {};
+
+    // Add student markers
+    for (int i = 0; i < studentLocations.length; i++) {
+      final student = studentLocations[i];
+      markers.add(
+        Marker(
+          markerId: MarkerId('student_$i'),
+          position: LatLng(student['latitude'], student['longitude']),
+          infoWindow: InfoWindow(
+            title: student['name'],
+            snippet: "${student['subject']} - ${student['question']}",
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          onTap: () {
+            _showStudentDetails(student);
+          },
+        ),
+      );
+    }
+
+    // Add tutor's current location marker
+    if (currentPosition != null) {
+      markers.add(
+        Marker(
+          markerId: const MarkerId('tutor_location'),
+          position: currentPosition!,
+          infoWindow: const InfoWindow(
+            title: 'Your Location',
+            snippet: 'You are here',
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+        ),
+      );
+    }
+
+    setState(() {
+      _markers = markers;
+    });
+  }
+
+  // Show student details in bottom sheet when marker tapped
+  void _showStudentDetails(Map<String, dynamic> student) {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +168,7 @@ class ViewMapState extends State<ViewMap> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   CircleAvatar(
@@ -123,13 +176,13 @@ class ViewMapState extends State<ViewMap> {
                     backgroundColor: AppColors.primary.withOpacity(0.1),
                     child: Icon(Icons.person, size: 35, color: AppColors.primary),
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         student['name'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -145,30 +198,30 @@ class ViewMapState extends State<ViewMap> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              Divider(),
-              SizedBox(height: 10),
+              const SizedBox(height: 20),
+              const Divider(),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Icon(Icons.help_outline, color: AppColors.primary),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       "Question: ${student['question']}",
-                      style: TextStyle(fontSize: 14),
+                      style: const TextStyle(fontSize: 14),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Icon(Icons.location_on, color: AppColors.primary),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Text("Distance: ${student['distance']} away"),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -178,12 +231,12 @@ class ViewMapState extends State<ViewMap> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.secondary,
-                  minimumSize: Size(double.infinity, 45),
+                  minimumSize: const Size(double.infinity, 45),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   "Help This Student",
                   style: TextStyle(color: Colors.white),
                 ),
@@ -195,90 +248,107 @@ class ViewMapState extends State<ViewMap> {
     );
   }
 
+  // Animate camera to show all markers
+  void _showAllMarkers() {
+    if (studentLocations.isEmpty || currentPosition == null) return;
+
+    double minLat = currentPosition!.latitude;
+    double maxLat = currentPosition!.latitude;
+    double minLng = currentPosition!.longitude;
+    double maxLng = currentPosition!.longitude;
+
+    for (var student in studentLocations) {
+      minLat = minLat < student['latitude'] ? minLat : student['latitude'];
+      maxLat = maxLat > student['latitude'] ? maxLat : student['latitude'];
+      minLng = minLng < student['longitude'] ? minLng : student['longitude'];
+      maxLng = maxLng > student['longitude'] ? maxLng : student['longitude'];
+    }
+
+    mapController?.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          southwest: LatLng(minLat - 0.05, minLng - 0.05),
+          northeast: LatLng(maxLat + 0.05, maxLng + 0.05),
+        ),
+        50,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (currentPosition == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.location_off, size: 80, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(
+              locationStatus,
+              style: const TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _getCurrentLocation,
+              child: const Text("Retry"),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Column(
       children: [
-        // Location status card
-        Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+        // Location status bar
+        Container(
+          padding: const EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
             color: AppColors.primary.withOpacity(0.1),
-            child: Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Icon(Icons.location_on, color: AppColors.primary),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      locationMessage,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.refresh, color: AppColors.primary),
-                    onPressed: _getTutorLocation,
-                  ),
-                ],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.location_on, color: AppColors.primary),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  locationStatus,
+                  style: const TextStyle(fontSize: 14),
+                ),
               ),
-            ),
+              IconButton(
+                icon: const Icon(Icons.my_location, color: AppColors.primary),
+                onPressed: _getCurrentLocation,
+              ),
+              IconButton(
+                icon: const Icon(Icons.zoom_out_map, color: AppColors.primary),
+                onPressed: _showAllMarkers,
+              ),
+            ],
           ),
         ),
 
-        // Student locations list
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Students Near You",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-
+        // Google Map
         Expanded(
-          child: ListView.builder(
-            itemCount: studentLocations.length,
-            itemBuilder: (context, index) {
-              final student = studentLocations[index];
-              return Card(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ListTile(
-                  leading: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(Icons.person, color: AppColors.primary),
-                  ),
-                  title: Text(
-                    student['name'],
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Subject: ${student['subject']}"),
-                      Text("📍 ${student['distance']} away • ${student['question']}"),
-                    ],
-                  ),
-                  trailing: Icon(Icons.chat, color: AppColors.secondary),
-                  onTap: () => _viewStudentDetails(student),
-                ),
-              );
+          child: GoogleMap(
+            onMapCreated: (controller) {
+              mapController = controller;
             },
+            initialCameraPosition: CameraPosition(
+              target: currentPosition!,
+              zoom: 12.0,
+            ),
+            markers: _markers,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            mapType: MapType.normal,
           ),
         ),
       ],
