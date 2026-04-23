@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/app_colors.dart';
 
 class AiSearchTab extends StatefulWidget {
   const AiSearchTab({super.key});
@@ -30,10 +31,8 @@ class _AiSearchTabState extends State<AiSearchTab> {
     String userText = controller.text;
 
     setState(() {
-      // user message (right side)
       messages.add(ChatMessage(text: userText, isUser: true));
 
-      // AI response (left side - fixed response)
       messages.add(ChatMessage(
         text: "Excellent. This is a very nice question.",
         isUser: false,
@@ -45,19 +44,25 @@ class _AiSearchTabState extends State<AiSearchTab> {
 
   Widget buildMessage(ChatMessage msg) {
     return Align(
-      alignment: msg.isUser ? Alignment.centerRight : Alignment.centerLeft,
+      alignment:
+          msg.isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         padding: EdgeInsets.all(12),
         constraints: BoxConstraints(maxWidth: 250),
         decoration: BoxDecoration(
-          color: msg.isUser ? Colors.orange : Colors.grey.shade300,
+          color: msg.isUser
+              ? AppColors.gold
+              : AppColors.primaryBlue.withOpacity(0.15),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           msg.text,
           style: TextStyle(
-            color: msg.isUser ? Colors.white : Colors.black,
+            color: msg.isUser
+                ? AppColors.white
+                : AppColors.primaryBlue,
+            fontSize: 15,
           ),
         ),
       ),
@@ -68,7 +73,6 @@ class _AiSearchTabState extends State<AiSearchTab> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // CHAT AREA
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.all(10),
@@ -79,7 +83,6 @@ class _AiSearchTabState extends State<AiSearchTab> {
           ),
         ),
 
-        // INPUT BOX
         Padding(
           padding: EdgeInsets.fromLTRB(12, 10, 12, 20),
           child: Material(
@@ -88,7 +91,7 @@ class _AiSearchTabState extends State<AiSearchTab> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Row(
@@ -104,7 +107,10 @@ class _AiSearchTabState extends State<AiSearchTab> {
                   ),
                   IconButton(
                     onPressed: sendMessage,
-                    icon: Icon(Icons.send),
+                    icon: Icon(
+                      Icons.send,
+                      color: AppColors.accentOrange,
+                    ),
                   ),
                 ],
               ),

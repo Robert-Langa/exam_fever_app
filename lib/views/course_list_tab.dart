@@ -15,6 +15,8 @@ class CoursesTab extends StatefulWidget {
 class _CoursesTabState extends State<CoursesTab> {
   List<Map<String, dynamic>> courses = [];
 
+  static const Color primaryColor = Color(0xFFFF6B00);
+
   @override
   void initState() {
     super.initState();
@@ -23,9 +25,7 @@ class _CoursesTabState extends State<CoursesTab> {
 
   Future<void> loadCourses() async {
     final data = await DBHelper().getAllCourses();
-    setState(() {
-      courses = data;
-    });
+    setState(() => courses = data);
   }
 
   Future<void> addCourse() async {
@@ -99,69 +99,122 @@ class _CoursesTabState extends State<CoursesTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        courses.isEmpty
-            ? const Center(child: Text("No courses added yet"))
-            : ListView.builder(
-                itemCount: courses.length,
-                itemBuilder: (context, index) {
-                  final course = courses[index];
+    return Scaffold(
+      backgroundColor: const Color(0xFFF7F7F7),
+      body: courses.isEmpty
+          ? const Center(
+              child: Text(
+                "No courses added yet",
+                style: TextStyle(fontSize: 18),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(10),
+              itemCount: courses.length,
+              itemBuilder: (context, index) {
+                final course = courses[index];
 
-                  return Card(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 6),
-                    child: ListTile(
-                      leading:
-                          const Icon(Icons.book, color: Colors.blueAccent),
-
-                      title: Text(course['name'] ?? ''),
-
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                return Card(
+                  elevation: 4,
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: InkWell(
+                    onTap: () => openCourse(course),
+                    child: Padding(
+                      padding: const EdgeInsets.all(14),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text("Education: ${course['education']}"),
-                          Text("Format: ${course['format']}"),
-                        ],
-                      ),
-
-                      onTap: () => openCourse(course),
-
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.play_arrow,
-                                color: Colors.green),
-                            onPressed: () => startExam(course),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.book,
+                                        color: Colors.deepOrange, size: 28),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Text(
+                                        course['name'] ?? '',
+                                        style: const TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.deepOrange,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.school,
+                                        size: 18, color: Colors.blue),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      "Education: ${course['education'] ?? ''}",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 6),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.list_alt,
+                                        size: 18, color: Colors.purple),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      "Format: ${course['format'] ?? ''}",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.purple,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.edit,
-                                color: Colors.orange),
-                            onPressed: () => editCourse(course),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete,
-                                color: Colors.red),
-                            onPressed: () => deleteCourse(course['id']),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.play_arrow,
+                                    color: Colors.green),
+                                onPressed: () => startExam(course),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.edit,
+                                    color: Colors.orange),
+                                onPressed: () => editCourse(course),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete,
+                                    color: Colors.red),
+                                onPressed: () => deleteCourse(course['id']),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                  );
-                },
-              ),
-
-        Positioned(
-          bottom: 20,
-          right: 20,
-          child: FloatingActionButton(
-            backgroundColor: Colors.orange,
-            onPressed: addCourse,
-            child: const Icon(Icons.add),
-          ),
-        ),
-      ],
+                  ),
+                );
+              },
+            ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepOrange,
+        onPressed: addCourse,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }

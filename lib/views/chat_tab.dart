@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/app_colors.dart';
 
 class ChatTab extends StatefulWidget {
   const ChatTab({super.key});
@@ -43,19 +44,25 @@ class _ChatTabState extends State<ChatTab> {
 
   Widget buildMessage(ChatMessage msg) {
     return Align(
-      alignment: msg.isUser ? Alignment.centerRight : Alignment.centerLeft,
+      alignment:
+          msg.isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        padding: EdgeInsets.all(12),
-        constraints: BoxConstraints(maxWidth: 260),
+        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: const EdgeInsets.all(12),
+        constraints: const BoxConstraints(maxWidth: 260),
         decoration: BoxDecoration(
-          color: msg.isUser ? Colors.orange : Colors.grey.shade300,
+          color: msg.isUser
+              ? AppColors.accentOrange
+              : AppColors.primaryBlue.withOpacity(0.15),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           msg.text,
           style: TextStyle(
-            color: msg.isUser ? Colors.white : Colors.black,
+            color: msg.isUser
+                ? AppColors.white
+                : AppColors.primaryBlue,
+            fontSize: 15,
           ),
         ),
       ),
@@ -68,7 +75,7 @@ class _ChatTabState extends State<ChatTab> {
       children: [
         Expanded(
           child: ListView.builder(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             itemCount: messages.length,
             itemBuilder: (context, index) {
               return buildMessage(messages[index]);
@@ -77,14 +84,14 @@ class _ChatTabState extends State<ChatTab> {
         ),
 
         Padding(
-          padding: EdgeInsets.fromLTRB(12, 10, 12, 20),
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 20),
           child: Material(
             elevation: 6,
             borderRadius: BorderRadius.circular(30),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Row(
@@ -92,7 +99,7 @@ class _ChatTabState extends State<ChatTab> {
                   Expanded(
                     child: TextField(
                       controller: controller,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Type a message...",
                         border: InputBorder.none,
                       ),
@@ -100,7 +107,10 @@ class _ChatTabState extends State<ChatTab> {
                   ),
                   IconButton(
                     onPressed: sendMessage,
-                    icon: Icon(Icons.send),
+                    icon: const Icon(
+                      Icons.send,
+                      color: AppColors.accentOrange,
+                    ),
                   ),
                 ],
               ),

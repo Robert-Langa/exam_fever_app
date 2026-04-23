@@ -27,7 +27,7 @@ class _UploadFileTabState extends State<UploadFileTab> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("No file selected")),
+        const SnackBar(content: Text("No file selected")),
       );
     }
   }
@@ -38,26 +38,26 @@ class _UploadFileTabState extends State<UploadFileTab> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Selection cleared")),
+      const SnackBar(content: Text("Selection cleared")),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
+
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.upload_file,
               size: 110,
-              color: Color(0xFF0D47A1),
+              color: primary,
             ),
-
-            SizedBox(height: 30),
-
+            const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -65,17 +65,15 @@ class _UploadFileTabState extends State<UploadFileTab> {
                   child: Text(
                     fileName,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-
-                SizedBox(width: 8),
-
+                const SizedBox(width: 8),
                 if (fileName != "No file selected")
                   GestureDetector(
                     onTap: cancelFile,
-                    child: Icon(
+                    child: const Icon(
                       Icons.cancel,
                       color: Colors.red,
                       size: 22,
@@ -83,15 +81,13 @@ class _UploadFileTabState extends State<UploadFileTab> {
                   ),
               ],
             ),
-
-            SizedBox(height: 30),
-
+            const SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF0D47A1),
+                backgroundColor: primary,
               ),
               onPressed: pickAndUploadFile,
-              child: Text(
+              child: const Text(
                 "Upload",
                 style: TextStyle(color: Colors.white),
               ),

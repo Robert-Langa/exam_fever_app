@@ -8,27 +8,45 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: AppColors.primaryBlue,
             ),
             child: Text(
               "ExamFever",
               style: TextStyle(
                 color: AppColors.white,
-                fontSize: 20,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
+
           ListTile(
-            title: const Text("Home"),
+            leading: const Icon(
+              Icons.home,
+              color: AppColors.primaryBlue,
+            ),
+            title: const Text(
+              "Home",
+              style: TextStyle(color: AppColors.primaryBlue),
+            ),
             onTap: () {
               Navigator.pop(context);
             },
           ),
+
           ListTile(
-            title: const Text("Logout"),
+            leading: const Icon(
+              Icons.logout,
+              color: AppColors.accentOrange,
+            ),
+            title: const Text(
+              "Logout",
+              style: TextStyle(color: AppColors.accentOrange),
+            ),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/login');
             },

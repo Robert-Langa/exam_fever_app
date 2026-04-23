@@ -30,13 +30,31 @@ class ActiveQuestions extends StatelessWidget {
         final q = questions[index];
 
         return Card(
+          color: AppColors.white,
           margin: const EdgeInsets.symmetric(vertical: 6),
           child: ListTile(
-            leading: Icon(Icons.person, color: AppColors.primary),
-            title: Text(q['name']),
-            subtitle: Text(q['question']),
+            leading: const Icon(
+              Icons.person,
+              color: AppColors.primaryBlue,
+            ),
+            title: Text(
+              q['name'],
+              style: const TextStyle(
+                color: AppColors.primaryBlue,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            subtitle: Text(
+              q['question'],
+              style: const TextStyle(
+                color: Colors.black87,
+              ),
+            ),
             trailing: IconButton(
-              icon: Icon(Icons.chat, color: AppColors.secondary),
+              icon: const Icon(
+                Icons.chat,
+                color: AppColors.accentOrange,
+              ),
               onPressed: () {
                 onChatTap(q['name'], q['question']);
               },

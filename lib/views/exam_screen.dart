@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/app_colors.dart';
 
 class ExamScreen extends StatefulWidget {
   final String courseName;
@@ -32,9 +33,6 @@ class _ExamScreenState extends State<ExamScreen> {
   int score = 0;
   int? selectedIndex;
   bool submitted = false;
-
-  static const primary = Color(0xFF0D47A1);
-  static const accent = Colors.orange;
 
   void selectOption(int index) {
     if (submitted) return;
@@ -70,127 +68,138 @@ class _ExamScreenState extends State<ExamScreen> {
     final question = questions[currentIndex];
 
     return Scaffold(
+      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: Text("Exam - ${widget.courseName}"),
-        backgroundColor: primary,
-        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: AppColors.primaryBlue,
+        foregroundColor: AppColors.white,
       ),
 
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: submitted
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.emoji_events,
-                      size: 80,
-                      color: accent,
+      body: submitted
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.emoji_events,
+                    size: 90,
+                    color: AppColors.accentOrange,
+                  ),
+                  const SizedBox(height: 15),
+                  const Text(
+                    "Exam Completed",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryBlue,
                     ),
-
-                    SizedBox(height: 15),
-
-                    Text(
-                      "Exam Completed",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: primary,
-                      ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Score: $score / ${questions.length}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: AppColors.primaryBlue,
                     ),
-
-                    SizedBox(height: 10),
-
-                    Text(
-                      "Score: $score / ${questions.length}",
-                      style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryBlue,
+                      foregroundColor: AppColors.white,
                     ),
-
-                    SizedBox(height: 20),
-
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primary,
-                      ),
-                      onPressed: exitExam,
-                      child: Text(
-                        "Exit",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                    onPressed: exitExam,
+                    child: const Text("Exit"),
+                  )
+                ],
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Question ${currentIndex + 1}/${questions.length}",
-                    style: TextStyle(
+                    "Question ${currentIndex + 1} / ${questions.length}",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
                       fontSize: 18,
-                      color: primary,
                       fontWeight: FontWeight.bold,
+                      color: AppColors.primaryBlue,
                     ),
                   ),
 
-                  SizedBox(height: 15),
+                  const SizedBox(height: 25),
 
-                  Text(
-                    question["question"],
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  Center(
+                    child: Text(
+                      question["question"],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryBlue,
+                      ),
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 30),
 
                   ...List.generate(
                     question["options"].length,
                     (index) => GestureDetector(
                       onTap: () => selectOption(index),
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        padding: EdgeInsets.all(12),
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: selectedIndex == index
-                                ? accent
-                                : Colors.grey,
+                                ? AppColors.accentOrange
+                                : AppColors.primaryBlue.withOpacity(0.3),
                             width: selectedIndex == index ? 2 : 1,
                           ),
                           color: selectedIndex == index
-                              ? accent.withOpacity(0.1)
+                              ? AppColors.accentOrange.withOpacity(0.15)
                               : Colors.transparent,
                         ),
-                        child: Text(question["options"][index]),
+                        child: Text(
+                          question["options"][index],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: AppColors.primaryBlue,
+                          ),
+                        ),
                       ),
                     ),
                   ),
 
-                  Spacer(),
+                  const Spacer(),
 
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            foregroundColor: primary,
-                            side: BorderSide(color: primary),
+                            foregroundColor: AppColors.primaryBlue,
+                            side: const BorderSide(
+                              color: AppColors.primaryBlue,
+                            ),
                           ),
                           onPressed: exitExam,
-                          child: Text("Exit"),
+                          child: const Text("Exit"),
                         ),
                       ),
-
-                      SizedBox(width: 10),
-
+                      const SizedBox(width: 10),
                       Expanded(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: accent,
+                            backgroundColor: AppColors.accentOrange,
+                            foregroundColor: AppColors.white,
                           ),
                           onPressed:
                               selectedIndex == null ? null : nextQuestion,
@@ -198,7 +207,6 @@ class _ExamScreenState extends State<ExamScreen> {
                             currentIndex == questions.length - 1
                                 ? "Submit"
                                 : "Next",
-                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
@@ -206,7 +214,7 @@ class _ExamScreenState extends State<ExamScreen> {
                   ),
                 ],
               ),
-      ),
+            ),
     );
   }
 }

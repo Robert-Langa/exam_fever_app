@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import '../core/app_colors.dart';
 
 class EditCourseScreen extends StatefulWidget {
   final Map<String, dynamic> course;
@@ -80,19 +81,32 @@ class _EditCourseScreenState extends State<EditCourseScreen> {
     }
   }
 
-  InputDecoration fieldStyle(String label) {
-    return const InputDecoration(
-      border: OutlineInputBorder(),
-    ).copyWith(labelText: label);
+  InputDecoration fieldStyle(String label, IconData icon) {
+    return InputDecoration(
+      labelText: label,
+      prefixIcon: Icon(icon, color: AppColors.primaryBlue),
+      labelStyle: const TextStyle(color: AppColors.primaryBlue),
+      border: const OutlineInputBorder(),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.accentOrange),
+      ),
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.primaryBlue),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text("Edit Course"),
-        backgroundColor: const Color(0xFF0D47A1),
+        backgroundColor: AppColors.primaryBlue,
+        foregroundColor: AppColors.white,
       ),
+
       body: ReactiveForm(
         formGroup: form,
         child: Padding(
@@ -101,45 +115,59 @@ class _EditCourseScreenState extends State<EditCourseScreen> {
             children: [
               ReactiveTextField(
                 formControlName: 'name',
-                decoration: fieldStyle("Course Name"),
+                decoration: fieldStyle("Course Name", Icons.book),
               ),
               const SizedBox(height: 10),
+
               ReactiveTextField(
                 formControlName: 'education',
-                decoration: fieldStyle("Education"),
+                decoration: fieldStyle("Education", Icons.school),
               ),
               const SizedBox(height: 10),
+
               ReactiveDropdownField(
                 formControlName: 'format',
-                decoration: fieldStyle("Format"),
+                decoration: fieldStyle("Format", Icons.list_alt),
                 items: ['Objective', 'Theory']
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ))
                     .toList(),
               ),
               const SizedBox(height: 10),
+
               ReactiveDropdownField(
                 formControlName: 'level',
-                decoration: fieldStyle("Level"),
+                decoration: fieldStyle("Level", Icons.trending_up),
                 items: ['Easy', 'Medium', 'Hard']
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ))
                     .toList(),
               ),
               const SizedBox(height: 10),
+
               ReactiveTextField(
                 formControlName: 'date',
                 readOnly: true,
                 onTap: (_) => pickDate(),
-                decoration: fieldStyle("Exam Date"),
+                decoration: fieldStyle("Exam Date", Icons.calendar_month),
               ),
               const SizedBox(height: 10),
+
               ReactiveTextField(
                 formControlName: 'address',
-                decoration: fieldStyle("Address"),
+                decoration: fieldStyle("Address", Icons.location_on),
               ),
+
               const SizedBox(height: 10),
+
               ReactiveFormConsumer(
                 builder: (context, form, child) {
                   return SwitchListTile(
+                    activeColor: AppColors.accentOrange,
                     title: const Text("Include Answers"),
                     value: form.control('includeAnswers').value ?? false,
                     onChanged: (val) {
@@ -148,10 +176,23 @@ class _EditCourseScreenState extends State<EditCourseScreen> {
                   );
                 },
               ),
+
               const SizedBox(height: 20),
+
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.accentOrange,
+                  foregroundColor: AppColors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                 onPressed: submit,
-                child: const Text("Update Course"),
+                child: const Text(
+                  "Update Course",
+                  style: TextStyle(fontSize: 16),
+                ),
               )
             ],
           ),

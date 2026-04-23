@@ -13,6 +13,10 @@ class TutorHome extends StatelessWidget {
       length: 3,
       child: Builder(
         builder: (context) {
+          final primary = Theme.of(context).colorScheme.primary;
+          final unselected =
+              Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black;
+
           void goToChat() {
             DefaultTabController.of(context).animateTo(1);
           }
@@ -23,9 +27,9 @@ class TutorHome extends StatelessWidget {
             body: Column(
               children: [
                 TabBar(
-                  indicatorColor: Colors.orange,
-                  labelColor: Colors.orange,
-                  unselectedLabelColor: Colors.black,
+                  indicatorColor: primary,
+                  labelColor: primary,
+                  unselectedLabelColor: unselected,
                   tabs: const [
                     Tab(icon: Icon(Icons.map, size: 30), text: "Map"),
                     Tab(icon: Icon(Icons.chat, size: 30), text: "Chat"),

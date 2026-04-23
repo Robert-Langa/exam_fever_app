@@ -1,3 +1,4 @@
+import 'package:exam_fever_app/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -64,12 +65,17 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
     }
   }
 
-  InputDecoration fieldStyle(String label) {
+  InputDecoration fieldStyle(String label, IconData icon) {
     return InputDecoration(
       labelText: label,
+      prefixIcon: Icon(icon, color: AppColors.primaryBlue),
+      labelStyle: const TextStyle(color: AppColors.primaryBlue),
       border: const OutlineInputBorder(),
       focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.orange),
+        borderSide: BorderSide(color: AppColors.accentOrange),
+      ),
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.primaryBlue),
       ),
     );
   }
@@ -77,10 +83,14 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text("Add Course"),
-        backgroundColor: const Color(0xFF0D47A1),
+        backgroundColor: AppColors.primaryBlue,
+        foregroundColor: AppColors.white,
       ),
+
       body: ReactiveForm(
         formGroup: form,
         child: Padding(
@@ -89,21 +99,19 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
             children: [
               ReactiveTextField(
                 formControlName: 'name',
-                decoration: fieldStyle("Course Name"),
+                decoration: fieldStyle("Course Name", Icons.book),
               ),
-
               const SizedBox(height: 10),
 
               ReactiveTextField(
                 formControlName: 'education',
-                decoration: fieldStyle("Education"),
+                decoration: fieldStyle("Education", Icons.school),
               ),
-
               const SizedBox(height: 10),
 
               ReactiveDropdownField(
                 formControlName: 'format',
-                decoration: fieldStyle("Format"),
+                decoration: fieldStyle("Format", Icons.list_alt),
                 items: ['Objective', 'Theory']
                     .map((e) => DropdownMenuItem(
                           value: e,
@@ -111,12 +119,11 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                         ))
                     .toList(),
               ),
-
               const SizedBox(height: 10),
 
               ReactiveDropdownField(
                 formControlName: 'level',
-                decoration: fieldStyle("Level"),
+                decoration: fieldStyle("Level", Icons.trending_up),
                 items: ['Easy', 'Medium', 'Hard']
                     .map((e) => DropdownMenuItem(
                           value: e,
@@ -124,21 +131,19 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                         ))
                     .toList(),
               ),
-
               const SizedBox(height: 10),
 
               ReactiveTextField(
                 formControlName: 'date',
                 readOnly: true,
                 onTap: (_) => pickDate(),
-                decoration: fieldStyle("Exam Date"),
+                decoration: fieldStyle("Exam Date", Icons.calendar_month),
               ),
-
               const SizedBox(height: 10),
 
               ReactiveTextField(
                 formControlName: 'address',
-                decoration: fieldStyle("Address"),
+                decoration: fieldStyle("Address", Icons.location_on),
               ),
 
               const SizedBox(height: 10),
@@ -146,6 +151,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
               ReactiveFormConsumer(
                 builder: (context, form, child) {
                   return SwitchListTile(
+                    activeColor: AppColors.accentOrange,
                     title: const Text("Include Answers"),
                     value: form.control('includeAnswers').value ?? false,
                     onChanged: (val) {
@@ -159,10 +165,18 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D47A1),
+                  backgroundColor: AppColors.accentOrange,
+                  foregroundColor: AppColors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
                 onPressed: submit,
-                child: const Text("Save Course"),
+                child: const Text(
+                  "Save Course",
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
             ],
           ),

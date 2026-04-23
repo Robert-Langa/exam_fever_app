@@ -2,40 +2,84 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTheme {
-  static ThemeData get lightTheme {
-    return ThemeData(
-      primaryColor: AppColors.primary,
-      scaffoldBackgroundColor: AppColors.background,
+  static ThemeData lightTheme = ThemeData(
+    useMaterial3: true,
 
-      appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.primary,
+    colorScheme: ColorScheme.light(
+      primary: AppColors.primaryBlue,
+      secondary: AppColors.gold,
+      background: AppColors.background,
+    ),
+
+    scaffoldBackgroundColor: AppColors.background,
+
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.primaryBlue,
+      foregroundColor: AppColors.white,
+      centerTitle: true,
+    ),
+
+    tabBarTheme: TabBarThemeData(
+      labelColor: AppColors.gold,
+      unselectedLabelColor: Colors.black54,
+      indicatorColor: AppColors.gold,
+    ),
+
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.gold,
         foregroundColor: AppColors.white,
       ),
+    ),
 
-      tabBarTheme: TabBarThemeData(
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.white70,
-        indicatorColor: Colors.orange,
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.gold),
       ),
-    );
-  }
-
-  static ThemeData get darkTheme {
-    return ThemeData(
-      brightness: Brightness.dark,
-      primaryColor: AppColors.primary,
-      scaffoldBackgroundColor: Colors.black,
-
-      appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.white,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.primaryBlue),
       ),
+      border: OutlineInputBorder(),
+    ),
+  );
 
-      tabBarTheme: TabBarThemeData(
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.white70,
-        indicatorColor: Colors.orange,
+  static ThemeData darkTheme = ThemeData(
+    useMaterial3: true,
+
+    colorScheme: ColorScheme.dark(
+      primary: AppColors.primaryBlue,
+      secondary: AppColors.gold,
+    ),
+
+    scaffoldBackgroundColor: Colors.black,
+
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.primaryBlue,
+      foregroundColor: AppColors.white,
+      centerTitle: true,
+    ),
+
+    tabBarTheme: TabBarThemeData(
+      labelColor: AppColors.gold,
+      unselectedLabelColor: Colors.white70,
+      indicatorColor: AppColors.gold,
+    ),
+
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.gold,
+        foregroundColor: AppColors.black,
       ),
-    );
-  }
+    ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.gold),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.primaryBlue),
+      ),
+      border: OutlineInputBorder(),
+    ),
+  );
 }
