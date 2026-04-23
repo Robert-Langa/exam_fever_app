@@ -7,16 +7,9 @@ class LoginScreen extends StatelessWidget {
 
   final FormGroup form = FormGroup({
     'email': FormControl<String>(
-      validators: [
-        Validators.required,
-        Validators.email,
-      ],
+      validators: [Validators.required, Validators.email],
     ),
-    'password': FormControl<String>(
-      validators: [
-        Validators.required,
-      ],
-    ),
+    'password': FormControl<String>(validators: [Validators.required]),
   });
 
   @override
@@ -25,7 +18,7 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
 
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: ReactiveForm(
           formGroup: form,
           child: Column(
@@ -33,24 +26,21 @@ class LoginScreen extends StatelessWidget {
             children: [
               Image.asset('assets/images/exam_fever_logo.png', width: 260),
 
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
 
               ReactiveTextField<String>(
                 formControlName: 'email',
                 decoration: InputDecoration(
                   labelText: "Email",
-                  labelStyle: const TextStyle(color: AppColors.primaryBlue),
-                  border: const OutlineInputBorder(),
-                  focusedBorder: const OutlineInputBorder(
+                  labelStyle: TextStyle(color: AppColors.primaryBlue),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: AppColors.accentOrange),
                   ),
-                  enabledBorder: const OutlineInputBorder(
+                  enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: AppColors.primaryBlue),
                   ),
-                  prefixIcon: const Icon(
-                    Icons.email,
-                    color: AppColors.primaryBlue,
-                  ),
+                  prefixIcon: Icon(Icons.email, color: AppColors.primaryBlue),
                 ),
                 validationMessages: {
                   ValidationMessage.required: (_) => 'Email is required',
@@ -58,32 +48,29 @@ class LoginScreen extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               ReactiveTextField<String>(
                 formControlName: 'password',
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: "Password",
-                  labelStyle: const TextStyle(color: AppColors.primaryBlue),
-                  border: const OutlineInputBorder(),
-                  focusedBorder: const OutlineInputBorder(
+                  labelStyle: TextStyle(color: AppColors.primaryBlue),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: AppColors.accentOrange),
                   ),
-                  enabledBorder: const OutlineInputBorder(
+                  enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: AppColors.primaryBlue),
                   ),
-                  prefixIcon: const Icon(
-                    Icons.lock,
-                    color: AppColors.primaryBlue,
-                  ),
+                  prefixIcon: Icon(Icons.lock, color: AppColors.primaryBlue),
                 ),
                 validationMessages: {
                   ValidationMessage.required: (_) => 'Password is required',
                 },
               ),
 
-              const SizedBox(height: 5),
+              SizedBox(height: 5),
 
               Align(
                 alignment: Alignment.centerRight,
@@ -91,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, '/forgot');
                   },
-                  child: const Text(
+                  child: Text(
                     "Forgot password?",
                     style: TextStyle(
                       fontSize: 12,
@@ -102,20 +89,19 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.accentOrange,
-                  minimumSize: const Size(double.infinity, 50),
+                  minimumSize: Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 onPressed: () {
                   if (form.valid) {
-                    final password =
-                        form.control('password').value?.toString();
+                    final password = form.control('password').value?.toString();
 
                     if (password == "student") {
                       Navigator.pushReplacementNamed(context, '/student');
@@ -123,16 +109,14 @@ class LoginScreen extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, '/tutor');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Invalid credentials"),
-                        ),
+                        SnackBar(content: Text("Invalid credentials")),
                       );
                     }
                   } else {
                     form.markAllAsTouched();
                   }
                 },
-                child: const Text(
+                child: Text(
                   "Login",
                   style: TextStyle(
                     color: AppColors.white,
@@ -142,12 +126,12 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "New user to ExamFever? ",
                     style: TextStyle(color: AppColors.primaryBlue),
                   ),
@@ -155,7 +139,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/signup');
                     },
-                    child: const Text(
+                    child: Text(
                       "Sign up",
                       style: TextStyle(
                         color: AppColors.primaryBlue,
@@ -164,7 +148,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

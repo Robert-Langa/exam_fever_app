@@ -20,7 +20,7 @@ class _ChatTabState extends State<ChatTab> {
 
   List<ChatMessage> messages = [
     ChatMessage(
-      text: "Hello Tutor, I need your help. How to learn DSA in 5 Minutes",
+      text: "Hello Tutor, I need your help. How to learn DSA in 5 Minutes.",
       isUser: false,
     ),
   ];

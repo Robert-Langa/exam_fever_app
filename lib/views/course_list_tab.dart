@@ -15,8 +15,6 @@ class CoursesTab extends StatefulWidget {
 class _CoursesTabState extends State<CoursesTab> {
   List<Map<String, dynamic>> courses = [];
 
-  static const Color primaryColor = Color(0xFFFF6B00);
-
   @override
   void initState() {
     super.initState();

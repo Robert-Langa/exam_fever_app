@@ -15,7 +15,7 @@ class Profile extends StatelessWidget {
       title: "Profile",
       role: role,
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,7 +23,7 @@ class Profile extends StatelessWidget {
               child: CircleAvatar(
                 radius: 50,
                 backgroundColor: AppColors.white,
-                child: const Icon(
+                child: Icon(
                   Icons.person,
                   size: 50,
                   color: AppColors.primaryBlue,
@@ -31,55 +31,43 @@ class Profile extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             Text(
               "Name: ${isTutor ? "Y Tutor" : "X Student"}",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 color: AppColors.primaryBlue,
                 fontWeight: FontWeight.w500,
               ),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
             Text(
               "Email: ${isTutor ? "tutor@app.com" : "student@app.com"}",
-              style: const TextStyle(
-                fontSize: 18,
-                color: AppColors.primaryBlue,
-              ),
+              style: TextStyle(fontSize: 18, color: AppColors.primaryBlue),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
             Text(
               "Role: ${isTutor ? "Tutor" : "Student"}",
-              style: const TextStyle(
-                fontSize: 18,
-                color: AppColors.primaryBlue,
-              ),
+              style: TextStyle(fontSize: 18, color: AppColors.primaryBlue),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
-            const Text(
+            Text(
               "Age: 22",
-              style: TextStyle(
-                fontSize: 18,
-                color: AppColors.primaryBlue,
-              ),
+              style: TextStyle(fontSize: 18, color: AppColors.primaryBlue),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
-            const Text(
+            Text(
               "Location: Canada",
-              style: TextStyle(
-                fontSize: 18,
-                color: AppColors.primaryBlue,
-              ),
+              style: TextStyle(fontSize: 18, color: AppColors.primaryBlue),
             ),
           ],
         ),

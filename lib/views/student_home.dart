@@ -32,16 +32,19 @@ class _StudentHomeState extends State<StudentHome> {
                 indicatorColor: primary,
                 labelColor: primary,
                 unselectedLabelColor: unselected,
-                tabs: const [
+                tabs: [
                   Tab(icon: Icon(Icons.list, size: 30), text: "Courses"),
                   Tab(icon: Icon(Icons.upload_file, size: 30), text: "Upload"),
-                  Tab(icon: Icon(Icons.help_outline, size: 30), text: "Ask Tutor"),
+                  Tab(
+                    icon: Icon(Icons.help_outline, size: 30),
+                    text: "Ask Tutor",
+                  ),
                   Tab(icon: Icon(Icons.search, size: 30), text: "AI Search"),
                 ],
               ),
               Expanded(
                 child: TabBarView(
-                  children: const [
+                  children: [
                     CoursesTab(),
                     UploadFileTab(),
                     AskTutorTab(),

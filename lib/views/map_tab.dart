@@ -18,15 +18,9 @@ class MapTab extends StatelessWidget {
             indicatorColor: AppColors.accentOrange,
             labelColor: AppColors.accentOrange,
             unselectedLabelColor: AppColors.primaryBlue,
-            tabs: const [
-              Tab(
-                text: "View Map",
-                icon: Icon(Icons.map),
-              ),
-              Tab(
-                text: "Active Questions",
-                icon: Icon(Icons.list),
-              ),
+            tabs: [
+              Tab(text: "View Map", icon: Icon(Icons.map)),
+              Tab(text: "Active Questions", icon: Icon(Icons.list)),
             ],
           ),
           Expanded(

@@ -34,7 +34,7 @@ class SignupScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Create Account")),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: ReactiveForm(
           formGroup: form,
           child: SingleChildScrollView(
@@ -42,28 +42,28 @@ class SignupScreen extends StatelessWidget {
               children: [
                 Image.asset('assets/images/exam_fever_logo.png', width: 200),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 ReactiveTextField<String>(
                   formControlName: 'firstName',
                   decoration: _dec("First Name"),
                 ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
 
                 ReactiveTextField<String>(
                   formControlName: 'lastName',
                   decoration: _dec("Last Name"),
                 ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
 
                 ReactiveTextField<String>(
                   formControlName: 'email',
                   decoration: _dec("Email"),
                 ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
 
                 ReactiveTextField<String>(
                   formControlName: 'password',
@@ -71,7 +71,7 @@ class SignupScreen extends StatelessWidget {
                   decoration: _dec("Password"),
                 ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
 
                 ReactiveTextField<String>(
                   formControlName: 'retypePassword',
@@ -79,23 +79,23 @@ class SignupScreen extends StatelessWidget {
                   decoration: _dec("Retype Password"),
                 ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
 
                 ReactiveDropdownField<String>(
                   formControlName: 'role',
                   decoration: _dec("Select Role"),
-                  items: const [
+                  items: [
                     DropdownMenuItem(value: "student", child: Text("Student")),
                     DropdownMenuItem(value: "tutor", child: Text("Tutor")),
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 220, 179, 15),
-                    minimumSize: const Size(double.infinity, 50),
+                    backgroundColor: Color.fromARGB(255, 220, 179, 15),
+                    minimumSize: Size(double.infinity, 50),
                   ),
                   onPressed: () {
                     if (form.valid) {
@@ -108,7 +108,7 @@ class SignupScreen extends StatelessWidget {
                       form.markAllAsTouched();
                     }
                   },
-                  child: const Text(
+                  child: Text(
                     "Create Account",
                     style: TextStyle(color: Colors.black),
                   ),

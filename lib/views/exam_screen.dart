@@ -86,8 +86,8 @@ class _ExamScreenState extends State<ExamScreen> {
                     size: 90,
                     color: AppColors.accentOrange,
                   ),
-                  const SizedBox(height: 15),
-                  const Text(
+                  SizedBox(height: 15),
+                  Text(
                     "Exam Completed",
                     style: TextStyle(
                       fontSize: 24,
@@ -95,48 +95,48 @@ class _ExamScreenState extends State<ExamScreen> {
                       color: AppColors.primaryBlue,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Text(
                     "Score: $score / ${questions.length}",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       color: AppColors.primaryBlue,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryBlue,
                       foregroundColor: AppColors.white,
                     ),
                     onPressed: exitExam,
-                    child: const Text("Exit"),
+                    child: Text("Exit"),
                   )
                 ],
               ),
             )
           : Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     "Question ${currentIndex + 1} / ${questions.length}",
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primaryBlue,
                     ),
                   ),
 
-                  const SizedBox(height: 25),
+                  SizedBox(height: 25),
 
                   Center(
                     child: Text(
                       question["question"],
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primaryBlue,
@@ -144,7 +144,7 @@ class _ExamScreenState extends State<ExamScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30),
 
                   ...List.generate(
                     question["options"].length,
@@ -152,8 +152,8 @@ class _ExamScreenState extends State<ExamScreen> {
                       onTap: () => selectOption(index),
                       child: Container(
                         width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(16),
+                        margin: EdgeInsets.only(bottom: 12),
+                        padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
@@ -169,7 +169,7 @@ class _ExamScreenState extends State<ExamScreen> {
                         child: Text(
                           question["options"][index],
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             color: AppColors.primaryBlue,
                           ),
@@ -178,7 +178,7 @@ class _ExamScreenState extends State<ExamScreen> {
                     ),
                   ),
 
-                  const Spacer(),
+                  Spacer(),
 
                   Row(
                     children: [
@@ -186,15 +186,15 @@ class _ExamScreenState extends State<ExamScreen> {
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.primaryBlue,
-                            side: const BorderSide(
+                            side: BorderSide(
                               color: AppColors.primaryBlue,
                             ),
                           ),
                           onPressed: exitExam,
-                          child: const Text("Exit"),
+                          child: Text("Exit"),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      SizedBox(width: 10),
                       Expanded(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(

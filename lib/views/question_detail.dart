@@ -12,13 +12,13 @@ class QuestionDetailScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
 
       appBar: AppBar(
-        title: const Text("Question Detail"),
+        title: Text("Question Detail"),
         backgroundColor: AppColors.primaryBlue,
         foregroundColor: AppColors.white,
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -26,10 +26,10 @@ class QuestionDetailScreen extends StatelessWidget {
               elevation: 4,
               color: AppColors.white,
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Text(
                   question,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     color: AppColors.primaryBlue,
                     fontWeight: FontWeight.w500,
@@ -38,9 +38,9 @@ class QuestionDetailScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
-            const Text(
+            Text(
               "Answer",
               style: TextStyle(
                 fontSize: 18,
@@ -49,12 +49,12 @@ class QuestionDetailScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
             Expanded(
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: AppColors.primaryBlue.withOpacity(0.08),
                   borderRadius: BorderRadius.circular(12),
@@ -62,12 +62,9 @@ class QuestionDetailScreen extends StatelessWidget {
                     color: AppColors.primaryBlue.withOpacity(0.2),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "This is a good question. Here is the explanation provided by the tutor or AI assistant.",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: AppColors.primaryBlue,
-                  ),
+                  style: TextStyle(fontSize: 15, color: AppColors.primaryBlue),
                 ),
               ),
             ),

@@ -30,7 +30,7 @@ class TutorHome extends StatelessWidget {
                   indicatorColor: primary,
                   labelColor: primary,
                   unselectedLabelColor: unselected,
-                  tabs: const [
+                  tabs: [
                     Tab(icon: Icon(Icons.map, size: 30), text: "Map"),
                     Tab(icon: Icon(Icons.chat, size: 30), text: "Chat"),
                     Tab(icon: Icon(Icons.search, size: 30), text: "AI Search"),
@@ -40,8 +40,8 @@ class TutorHome extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       MapTab(onChatTap: goToChat),
-                      const ChatTab(),
-                      const AiSearchTab(),
+                      ChatTab(),
+                      AiSearchTab(),
                     ],
                   ),
                 ),

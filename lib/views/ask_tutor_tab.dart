@@ -34,7 +34,7 @@ class _AskTutorTabState extends State<AskTutorTab> {
       messages.add(ChatMessage(text: userText, isUser: true));
 
       messages.add(ChatMessage(
-        text: "Here's how you can solve this question",
+        text: "Here's how you can solve this question.",
         isUser: false,
       ));
     });

@@ -39,12 +39,9 @@ class DrawerScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          title,
-          style: const TextStyle(color: AppColors.accentOrange),
-        ),
+        title: Text(title, style: TextStyle(color: AppColors.accentOrange)),
         backgroundColor: AppColors.primaryBlue,
-        iconTheme: const IconThemeData(color: AppColors.white),
+        iconTheme: IconThemeData(color: AppColors.white),
       ),
 
       drawer: Drawer(
@@ -52,13 +49,11 @@ class DrawerScaffold extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: const BoxDecoration(
-                color: AppColors.primaryBlue,
-              ),
+              decoration: BoxDecoration(color: AppColors.primaryBlue),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 38,
                     backgroundColor: AppColors.white,
                     child: Icon(
@@ -67,10 +62,10 @@ class DrawerScaffold extends StatelessWidget {
                       color: AppColors.primaryBlue,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Text(
                     "$role Panel",
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -81,11 +76,8 @@ class DrawerScaffold extends StatelessWidget {
             ),
 
             ListTile(
-              leading: const Icon(
-                Icons.home,
-                color: AppColors.primaryBlue,
-              ),
-              title: const Text(
+              leading: Icon(Icons.home, color: AppColors.primaryBlue),
+              title: Text(
                 "Home",
                 style: TextStyle(color: AppColors.primaryBlue),
               ),
@@ -93,11 +85,8 @@ class DrawerScaffold extends StatelessWidget {
             ),
 
             ListTile(
-              leading: const Icon(
-                Icons.person,
-                color: AppColors.primaryBlue,
-              ),
-              title: const Text(
+              leading: Icon(Icons.person, color: AppColors.primaryBlue),
+              title: Text(
                 "Profile",
                 style: TextStyle(color: AppColors.primaryBlue),
               ),
@@ -106,19 +95,14 @@ class DrawerScaffold extends StatelessWidget {
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => Profile(role: role),
-                  ),
+                  MaterialPageRoute(builder: (context) => Profile(role: role)),
                 );
               },
             ),
 
             ListTile(
-              leading: const Icon(
-                Icons.chat,
-                color: AppColors.primaryBlue,
-              ),
-              title: const Text(
+              leading: Icon(Icons.chat, color: AppColors.primaryBlue),
+              title: Text(
                 "Messages",
                 style: TextStyle(color: AppColors.primaryBlue),
               ),
@@ -132,14 +116,10 @@ class DrawerScaffold extends StatelessWidget {
                       appBar: AppBar(
                         title: Text(
                           role == "Tutor" ? "Chat" : "Ask Tutor",
-                          style: const TextStyle(
-                            color: AppColors.accentOrange,
-                          ),
+                          style: TextStyle(color: AppColors.accentOrange),
                         ),
                         backgroundColor: AppColors.primaryBlue,
-                        iconTheme: const IconThemeData(
-                          color: AppColors.white,
-                        ),
+                        iconTheme: IconThemeData(color: AppColors.white),
                       ),
                       body: role == "Tutor" ? ChatTab() : AskTutorTab(),
                     ),
@@ -149,11 +129,8 @@ class DrawerScaffold extends StatelessWidget {
             ),
 
             ListTile(
-              leading: const Icon(
-                Icons.smart_toy,
-                color: AppColors.primaryBlue,
-              ),
-              title: const Text(
+              leading: Icon(Icons.smart_toy, color: AppColors.primaryBlue),
+              title: Text(
                 "AI Assistant",
                 style: TextStyle(color: AppColors.primaryBlue),
               ),
@@ -165,16 +142,12 @@ class DrawerScaffold extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => Scaffold(
                       appBar: AppBar(
-                        title: const Text(
+                        title: Text(
                           "AI Assistant",
-                          style: TextStyle(
-                            color: AppColors.accentOrange,
-                          ),
+                          style: TextStyle(color: AppColors.accentOrange),
                         ),
                         backgroundColor: AppColors.primaryBlue,
-                        iconTheme: const IconThemeData(
-                          color: AppColors.white,
-                        ),
+                        iconTheme: IconThemeData(color: AppColors.white),
                       ),
                       body: AiSearchTab(),
                     ),
@@ -184,11 +157,8 @@ class DrawerScaffold extends StatelessWidget {
             ),
 
             ListTile(
-              leading: const Icon(
-                Icons.settings,
-                color: AppColors.primaryBlue,
-              ),
-              title: const Text(
+              leading: Icon(Icons.settings, color: AppColors.primaryBlue),
+              title: Text(
                 "Settings",
                 style: TextStyle(color: AppColors.primaryBlue),
               ),
@@ -198,14 +168,11 @@ class DrawerScaffold extends StatelessWidget {
               },
             ),
 
-            const Divider(),
+            Divider(),
 
             ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: AppColors.accentOrange,
-              ),
-              title: const Text(
+              leading: Icon(Icons.logout, color: AppColors.accentOrange),
+              title: Text(
                 "Logout",
                 style: TextStyle(color: AppColors.accentOrange),
               ),
