@@ -1,4 +1,3 @@
-import 'package:exam_fever_app/views/add_course_screen.dart';
 import 'package:exam_fever_app/views/ai_search_tab.dart';
 import 'package:exam_fever_app/views/ask_tutor_tab.dart';
 import 'package:exam_fever_app/views/course_list_tab.dart';
@@ -14,23 +13,6 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
-  final List<Map<String, dynamic>> courses = [];
-
-  void goToAddCourse() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AddCourseScreen()),
-    );
-
-    if (!mounted) return;
-
-    if (result != null && result is Map<String, dynamic>) {
-      setState(() {
-        courses.add(result);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -42,7 +24,7 @@ class _StudentHomeState extends State<StudentHome> {
           backgroundColor: Colors.transparent,
           body: Column(
             children: [
-              TabBar(
+              const TabBar(
                 indicatorColor: Colors.orange,
                 labelColor: Colors.orange,
                 unselectedLabelColor: Colors.black,
@@ -53,11 +35,10 @@ class _StudentHomeState extends State<StudentHome> {
                   Tab(icon: Icon(Icons.search, size: 30), text: "AI Search"),
                 ],
               ),
-
               Expanded(
                 child: TabBarView(
                   children: [
-                    CoursesTab(courses: courses),
+                    const CoursesTab(),
                     UploadFileTab(),
                     AskTutorTab(),
                     AiSearchTab(),

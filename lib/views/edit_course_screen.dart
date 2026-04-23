@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class AddCourseScreen extends StatefulWidget {
-  const AddCourseScreen({super.key});
+class EditCourseScreen extends StatefulWidget {
+  final Map<String, dynamic> course;
+
+  const EditCourseScreen({super.key, required this.course});
 
   @override
-  State<AddCourseScreen> createState() => _AddCourseScreenState();
+  State<EditCourseScreen> createState() => _EditCourseScreenState();
 }
 
-class _AddCourseScreenState extends State<AddCourseScreen> {
+class _EditCourseScreenState extends State<EditCourseScreen> {
   late final FormGroup form;
 
   @override
@@ -16,19 +18,33 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
     super.initState();
 
     form = FormGroup({
-      'name': FormControl<String>(validators: [Validators.required]),
-      'education': FormControl<String>(validators: [Validators.required]),
+      'name': FormControl<String>(
+        value: widget.course['name'],
+        validators: [Validators.required],
+      ),
+      'education': FormControl<String>(
+        value: widget.course['education'],
+        validators: [Validators.required],
+      ),
       'format': FormControl<String>(
-        value: 'Objective',
+        value: widget.course['format'],
         validators: [Validators.required],
       ),
       'level': FormControl<String>(
-        value: 'Easy',
+        value: widget.course['level'],
         validators: [Validators.required],
       ),
-      'date': FormControl<String>(validators: [Validators.required]),
-      'address': FormControl<String>(validators: [Validators.required]),
-      'includeAnswers': FormControl<bool>(value: false),
+      'date': FormControl<String>(
+        value: widget.course['examDate'],
+        validators: [Validators.required],
+      ),
+      'address': FormControl<String>(
+        value: widget.course['address'],
+        validators: [Validators.required],
+      ),
+      'includeAnswers': FormControl<bool>(
+        value: widget.course['includeAnswers'] == 1,
+      ),
     });
   }
 
@@ -65,20 +81,16 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
   }
 
   InputDecoration fieldStyle(String label) {
-    return InputDecoration(
-      labelText: label,
-      border: const OutlineInputBorder(),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.orange),
-      ),
-    );
+    return const InputDecoration(
+      border: OutlineInputBorder(),
+    ).copyWith(labelText: label);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Course"),
+        title: const Text("Edit Course"),
         backgroundColor: const Color(0xFF0D47A1),
       ),
       body: ReactiveForm(
@@ -91,58 +103,40 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 formControlName: 'name',
                 decoration: fieldStyle("Course Name"),
               ),
-
               const SizedBox(height: 10),
-
               ReactiveTextField(
                 formControlName: 'education',
                 decoration: fieldStyle("Education"),
               ),
-
               const SizedBox(height: 10),
-
               ReactiveDropdownField(
                 formControlName: 'format',
                 decoration: fieldStyle("Format"),
                 items: ['Objective', 'Theory']
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e),
-                        ))
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                     .toList(),
               ),
-
               const SizedBox(height: 10),
-
               ReactiveDropdownField(
                 formControlName: 'level',
                 decoration: fieldStyle("Level"),
                 items: ['Easy', 'Medium', 'Hard']
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e),
-                        ))
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                     .toList(),
               ),
-
               const SizedBox(height: 10),
-
               ReactiveTextField(
                 formControlName: 'date',
                 readOnly: true,
                 onTap: (_) => pickDate(),
                 decoration: fieldStyle("Exam Date"),
               ),
-
               const SizedBox(height: 10),
-
               ReactiveTextField(
                 formControlName: 'address',
                 decoration: fieldStyle("Address"),
               ),
-
               const SizedBox(height: 10),
-
               ReactiveFormConsumer(
                 builder: (context, form, child) {
                   return SwitchListTile(
@@ -154,16 +148,11 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                   );
                 },
               ),
-
               const SizedBox(height: 20),
-
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D47A1),
-                ),
                 onPressed: submit,
-                child: const Text("Save Course"),
-              ),
+                child: const Text("Update Course"),
+              )
             ],
           ),
         ),

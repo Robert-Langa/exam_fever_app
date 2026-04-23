@@ -1,94 +1,152 @@
-import 'package:exam_fever_app/views/add_course_screen.dart';
-import 'package:exam_fever_app/views/course_details.dart';
 import 'package:flutter/material.dart';
+import '../database/db_helper.dart';
+import 'add_course_screen.dart';
+import 'course_details.dart';
+import 'edit_course_screen.dart';
+import 'exam_screen.dart';
 
-class CoursesTab extends StatelessWidget {
-  final List<Map<String, dynamic>> courses;
+class CoursesTab extends StatefulWidget {
+  const CoursesTab({super.key});
 
-  const CoursesTab({super.key, required this.courses});
+  @override
+  State<CoursesTab> createState() => _CoursesTabState();
+}
 
-  List<Map<String, dynamic>> get displayCourses {
-    if (courses.isNotEmpty) return courses;
+class _CoursesTabState extends State<CoursesTab> {
+  List<Map<String, dynamic>> courses = [];
 
-    return [
-      {
-        "title": "Mathematics",
-        "education": "Grade 12",
-        "exam": "Theory",
-      },
-      {
-        "title": "Physics",
-        "education": "Grade 11",
-        "exam": "Objective",
-      },
-    ];
+  @override
+  void initState() {
+    super.initState();
+    loadCourses();
   }
 
-  void goToAddCourse(BuildContext context) {
+  Future<void> loadCourses() async {
+    final data = await DBHelper().getAllCourses();
+    setState(() {
+      courses = data;
+    });
+  }
+
+  Future<void> addCourse() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const AddCourseScreen()),
+    );
+
+    if (result != null) {
+      await DBHelper().insertCourse(result);
+      loadCourses();
+    }
+  }
+
+  Future<void> editCourse(Map<String, dynamic> course) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EditCourseScreen(course: course),
+      ),
+    );
+
+    if (result != null) {
+      await DBHelper().updateCourse(course['id'], result);
+      loadCourses();
+    }
+  }
+
+  Future<void> deleteCourse(int id) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Delete Course"),
+        content: const Text("Are you sure you want to delete this course?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text("Delete"),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      await DBHelper().deleteCourse(id);
+      loadCourses();
+    }
+  }
+
+  void openCourse(Map<String, dynamic> course) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddCourseScreen(),
+        builder: (_) => CourseDetailScreen(course: course),
       ),
     );
   }
 
-  void openCourseDetail(BuildContext context, Map<String, dynamic> course) {
+  void startExam(Map<String, dynamic> course) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CourseDetailScreen(course: course),
+        builder: (_) => ExamScreen(courseName: course['name']),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final list = displayCourses;
-
     return Stack(
       children: [
-        list.isEmpty
-            ? Center(
-                child: Text(
-                  "No courses added yet",
-                  style: TextStyle(fontSize: 16),
-                ),
-              )
+        courses.isEmpty
+            ? const Center(child: Text("No courses added yet"))
             : ListView.builder(
-                itemCount: list.length,
+                itemCount: courses.length,
                 itemBuilder: (context, index) {
-                  final course = list[index];
+                  final course = courses[index];
 
                   return Card(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 6),
                     child: ListTile(
-                      leading: Icon(Icons.book, color: Colors.blueAccent),
-                      title: Text(course['title'] ?? 'No Title'),
+                      leading:
+                          const Icon(Icons.book, color: Colors.blueAccent),
+
+                      title: Text(course['name'] ?? ''),
+
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Education: ${course['education'] ?? 'N/A'}"),
-                          Text("Exam: ${course['exam'] ?? 'N/A'}"),
+                          Text("Education: ${course['education']}"),
+                          Text("Format: ${course['format']}"),
                         ],
                       ),
+
+                      onTap: () => openCourse(course),
 
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.edit, color: Colors.orange),
-                            onPressed: () {},
+                            icon: const Icon(Icons.play_arrow,
+                                color: Colors.green),
+                            onPressed: () => startExam(course),
                           ),
-
                           IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {},
+                            icon: const Icon(Icons.edit,
+                                color: Colors.orange),
+                            onPressed: () => editCourse(course),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete,
+                                color: Colors.red),
+                            onPressed: () => deleteCourse(course['id']),
                           ),
                         ],
                       ),
-
-                      onTap: () => openCourseDetail(context, course),
                     ),
                   );
                 },
@@ -98,9 +156,9 @@ class CoursesTab extends StatelessWidget {
           bottom: 20,
           right: 20,
           child: FloatingActionButton(
-            onPressed: () => goToAddCourse(context),
             backgroundColor: Colors.orange,
-            child: Icon(Icons.add),
+            onPressed: addCourse,
+            child: const Icon(Icons.add),
           ),
         ),
       ],
