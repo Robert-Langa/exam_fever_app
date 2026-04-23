@@ -1,7 +1,7 @@
-import 'package:exam_fever_app/view/ai_search_tab.dart';
-import 'package:exam_fever_app/view/ask_tutor_tab.dart';
-import 'package:exam_fever_app/view/chat_tab.dart';
-import 'package:exam_fever_app/view/profile_page.dart';
+import 'package:exam_fever_app/views/ai_search_tab.dart';
+import 'package:exam_fever_app/views/ask_tutor_tab.dart';
+import 'package:exam_fever_app/views/chat_tab.dart';
+import 'package:exam_fever_app/views/profile_page.dart';
 import 'package:flutter/material.dart';
 
 

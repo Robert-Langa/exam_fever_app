@@ -1,5 +1,5 @@
-import 'package:exam_fever_app/view/add_course_screen.dart';
-import 'package:exam_fever_app/view/course_details.dart';
+import 'package:exam_fever_app/views/add_course_screen.dart';
+import 'package:exam_fever_app/views/course_details.dart';
 import 'package:flutter/material.dart';
 
 class CoursesTab extends StatelessWidget {

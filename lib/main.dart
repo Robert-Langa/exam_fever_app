@@ -1,13 +1,13 @@
 import 'package:exam_fever_app/core/app_theme.dart';
 import 'package:exam_fever_app/core/theme_controller.dart';
-import 'package:exam_fever_app/view/settings.dart';
+import 'package:exam_fever_app/views/settings.dart';
 import 'package:flutter/material.dart';
-import 'view/login_screen.dart';
-import 'view/signup_screen.dart';
-import 'view/forgot_password_screen.dart';
-import 'view/splash_screen.dart';
-import 'view/student_home.dart';
-import 'view/tutor_home.dart';
+import 'views/login_screen.dart';
+import 'views/signup_screen.dart';
+import 'views/forgot_password_screen.dart';
+import 'views/splash_screen.dart';
+import 'views/student_home.dart';
+import 'views/tutor_home.dart';
 
 void main() {
   runApp(const MyApp());

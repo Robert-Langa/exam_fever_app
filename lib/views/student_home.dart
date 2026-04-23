@@ -1,8 +1,8 @@
-import 'package:exam_fever_app/view/add_course_screen.dart';
-import 'package:exam_fever_app/view/ai_search_tab.dart';
-import 'package:exam_fever_app/view/ask_tutor_tab.dart';
-import 'package:exam_fever_app/view/course_list_tab.dart';
-import 'package:exam_fever_app/view/upload_file_tab.dart';
+import 'package:exam_fever_app/views/add_course_screen.dart';
+import 'package:exam_fever_app/views/ai_search_tab.dart';
+import 'package:exam_fever_app/views/ask_tutor_tab.dart';
+import 'package:exam_fever_app/views/course_list_tab.dart';
+import 'package:exam_fever_app/views/upload_file_tab.dart';
 import 'package:exam_fever_app/widgets/drawer_scaffold.dart';
 import 'package:flutter/material.dart';
 

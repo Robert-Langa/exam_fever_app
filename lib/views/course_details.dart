@@ -1,4 +1,4 @@
-import 'package:exam_fever_app/view/exam_screen.dart';
+import 'package:exam_fever_app/views/exam_screen.dart';
 import 'package:flutter/material.dart';
 
 class CourseDetailScreen extends StatelessWidget {
