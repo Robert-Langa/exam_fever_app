@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
+import 'feedback_screen.dart';
 
 class ExamScreen extends StatefulWidget {
   final String courseName;
@@ -15,17 +16,17 @@ class _ExamScreenState extends State<ExamScreen> {
     {
       "question": "What is 2 + 2?",
       "options": ["3", "4", "5", "6"],
-      "answer": 1
+      "answer": 1,
     },
     {
       "question": "What is the capital of Canada?",
       "options": ["Toronto", "Ottawa", "Vancouver", "Montreal"],
-      "answer": 1
+      "answer": 1,
     },
     {
       "question": "Which is a programming language?",
       "options": ["HTML", "CSS", "Python", "Photoshop"],
-      "answer": 2
+      "answer": 2,
     },
   ];
 
@@ -63,19 +64,24 @@ class _ExamScreenState extends State<ExamScreen> {
     Navigator.pop(context);
   }
 
+  void navigateToFeedback() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const FeedbackScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final question = questions[currentIndex];
 
     return Scaffold(
       backgroundColor: AppColors.background,
-
       appBar: AppBar(
         title: Text("Exam - ${widget.courseName}"),
         backgroundColor: AppColors.primaryBlue,
         foregroundColor: AppColors.white,
       ),
-
       body: submitted
           ? Center(
               child: Column(
@@ -86,7 +92,7 @@ class _ExamScreenState extends State<ExamScreen> {
                     size: 90,
                     color: AppColors.accentOrange,
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Text(
                     "Exam Completed",
                     style: TextStyle(
@@ -95,7 +101,7 @@ class _ExamScreenState extends State<ExamScreen> {
                       color: AppColors.primaryBlue,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     "Score: $score / ${questions.length}",
                     style: TextStyle(
@@ -103,20 +109,38 @@ class _ExamScreenState extends State<ExamScreen> {
                       color: AppColors.primaryBlue,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  // Give Feedback Button
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.accentOrange,
+                      foregroundColor: AppColors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 12,
+                      ),
+                    ),
+                    onPressed: navigateToFeedback,
+                    child: const Text("Give Feedback"),
+                  ),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryBlue,
                       foregroundColor: AppColors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 12,
+                      ),
                     ),
                     onPressed: exitExam,
-                    child: Text("Exit"),
-                  )
+                    child: const Text("Exit"),
+                  ),
                 ],
               ),
             )
           : Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -129,9 +153,7 @@ class _ExamScreenState extends State<ExamScreen> {
                       color: AppColors.primaryBlue,
                     ),
                   ),
-
-                  SizedBox(height: 25),
-
+                  const SizedBox(height: 25),
                   Center(
                     child: Text(
                       question["question"],
@@ -143,17 +165,15 @@ class _ExamScreenState extends State<ExamScreen> {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 30),
-
+                  const SizedBox(height: 30),
                   ...List.generate(
                     question["options"].length,
                     (index) => GestureDetector(
                       onTap: () => selectOption(index),
                       child: Container(
                         width: double.infinity,
-                        margin: EdgeInsets.only(bottom: 12),
-                        padding: EdgeInsets.all(16),
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
@@ -177,32 +197,29 @@ class _ExamScreenState extends State<ExamScreen> {
                       ),
                     ),
                   ),
-
-                  Spacer(),
-
+                  const Spacer(),
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.primaryBlue,
-                            side: BorderSide(
-                              color: AppColors.primaryBlue,
-                            ),
+                            side: BorderSide(color: AppColors.primaryBlue),
                           ),
                           onPressed: exitExam,
-                          child: Text("Exit"),
+                          child: const Text("Exit"),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.accentOrange,
                             foregroundColor: AppColors.white,
                           ),
-                          onPressed:
-                              selectedIndex == null ? null : nextQuestion,
+                          onPressed: selectedIndex == null
+                              ? null
+                              : nextQuestion,
                           child: Text(
                             currentIndex == questions.length - 1
                                 ? "Submit"
