@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import '../core/app_colors.dart';
+import 'package:exam_fever_app/core/app_colors.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});

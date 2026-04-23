@@ -4,7 +4,6 @@ import 'package:exam_fever_app/view/chat_tab.dart';
 import 'package:exam_fever_app/view/profile_page.dart';
 import 'package:flutter/material.dart';
 
-
 class DrawerScaffold extends StatelessWidget {
   final String title;
   final String role;
@@ -31,7 +30,7 @@ class DrawerScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title, style: const TextStyle(color: Colors.orange)),
+        title: Text(title, style: TextStyle(color: Colors.orange)),
         backgroundColor: const Color(0xFF0D47A1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -40,9 +39,8 @@ class DrawerScaffold extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-
             DrawerHeader(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Color(0xFF0D47A1),
               ),
               child: Column(
@@ -54,7 +52,7 @@ class DrawerScaffold extends StatelessWidget {
                     child: Icon(
                       Icons.person,
                       size: 40,
-                      color: Color(0xFF0D47A1),
+                      color: const Color(0xFF0D47A1),
                     ),
                   ),
                   SizedBox(height: 10),
@@ -69,12 +67,12 @@ class DrawerScaffold extends StatelessWidget {
               ),
             ),
 
+            // Home
             ListTile(
-              leading: const Icon(Icons.home),
+              leading: Icon(Icons.home),
               title: Text("Home", style: TextStyle(color: textColor)),
               onTap: () {
                 Navigator.pop(context);
-
                 if (role == "Tutor") {
                   Navigator.pushNamed(context, "/tutor");
                 } else {
@@ -83,12 +81,12 @@ class DrawerScaffold extends StatelessWidget {
               },
             ),
 
+            // Profile
             ListTile(
-              leading: const Icon(Icons.person),
+              leading: Icon(Icons.person),
               title: Text("Profile", style: TextStyle(color: textColor)),
               onTap: () {
                 Navigator.pop(context);
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -98,72 +96,90 @@ class DrawerScaffold extends StatelessWidget {
               },
             ),
 
+            // My Progress (NEW - for Students only)
+            if (role == "Student")
+              ListTile(
+                leading: Icon(Icons.bar_chart),
+                title: Text("My Progress", style: TextStyle(color: textColor)),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/progress');
+                },
+              ),
+
+            // Messages / Ask Tutor
             ListTile(
-              leading: const Icon(Icons.chat),
-              title: Text("Messages", style: TextStyle(color: textColor)),
+              leading: Icon(Icons.chat),
+              title: Text(role == "Tutor" ? "Chat" : "Ask Tutor", style: TextStyle(color: textColor)),
               onTap: () {
                 Navigator.pop(context);
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Scaffold(
                       appBar: AppBar(
                         title: Text(role == "Tutor" ? "Chat" : "Ask Tutor"),
-                        backgroundColor: const Color(0xFF0D47A1),
+                        backgroundColor: Color(0xFF0D47A1),
                         iconTheme: const IconThemeData(color: Colors.white),
                       ),
-                      body: role == "Tutor" ? ChatTab() : AskTutorTab(),
+                      body: role == "Tutor" ? const ChatTab() : const AskTutorTab(),
                     ),
                   ),
                 );
               },
             ),
 
+            // AI Assistant
             ListTile(
-              leading: const Icon(Icons.smart_toy),
+              leading: Icon(Icons.smart_toy),
               title: Text("AI Assistant", style: TextStyle(color: textColor)),
               onTap: () {
                 Navigator.pop(context);
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Scaffold(
                       appBar: AppBar(
-                        title: const Text("AI Assistant"),
+                        title: Text("AI Assistant"),
                         backgroundColor: const Color(0xFF0D47A1),
-                        iconTheme: const IconThemeData(color: Colors.white),
+                        iconTheme: IconThemeData(color: Colors.white),
                       ),
-                      body: AiSearchTab(),
+                      body: const AiSearchTab(),
                     ),
                   ),
                 );
               },
             ),
 
+            // Map (for Tutor) or View Map (for Student)
             ListTile(
               leading: const Icon(Icons.map),
-              title: Text("Map", style: TextStyle(color: textColor)),
+              title: Text(role == "Tutor" ? "View Map" : "Tutor Locations", style: TextStyle(color: textColor)),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, "/viewmap");
+                if (role == "Tutor") {
+                  Navigator.pushNamed(context, '/viewMap');
+                } else {
+                  Navigator.pushNamed(context, '/mapScreen');
+                }
               },
             ),
 
+            // Settings
             ListTile(
-              leading: const Icon(Icons.settings),
+              leading: Icon(Icons.settings),
               title: Text("Settings", style: TextStyle(color: textColor)),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, "/settings");
+                Navigator.pushNamed(context, '/settings');
               },
             ),
 
             const Divider(),
 
+            // Logout
             ListTile(
-              leading: const Icon(Icons.logout),
+              leading: Icon(Icons.logout),
               title: Text("Logout", style: TextStyle(color: textColor)),
               onTap: () => logout(context),
             ),

@@ -8,6 +8,8 @@ import 'view/forgot_password_screen.dart';
 import 'view/splash_screen.dart';
 import 'view/student_home.dart';
 import 'view/tutor_home.dart';
+import 'view/view_map.dart';
+import 'view/progress_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,6 +39,9 @@ class MyApp extends StatelessWidget {
             '/student': (context) => StudentHome(),
             '/tutor': (context) => TutorHome(),
             '/settings': (context) => Settings(),
+            '/viewMap': (context) => ViewMap(),
+            '/progress': (context) => ProgressScreen(userId: 1),
+            
           },
         );
       },

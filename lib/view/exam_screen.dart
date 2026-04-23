@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:exam_fever_app/database/db_helper.dart';
 
 class ExamScreen extends StatefulWidget {
   final String courseName;
+  final int courseId;
 
-  const ExamScreen({super.key, required this.courseName});
+  const ExamScreen({super.key, required this.courseName, required this.courseId});
 
   @override
   State<ExamScreen> createState() => _ExamScreenState();
@@ -36,9 +38,20 @@ class _ExamScreenState extends State<ExamScreen> {
   static const primary = Color(0xFF0D47A1);
   static const accent = Colors.orange;
 
+  // Save result to database
+  void saveResult() async {
+    final Map<String, dynamic> resultData = {
+      'userId': 1, // In real app, use logged-in user ID
+      'courseName': widget.courseName,
+      'score': score,
+      'totalQuestions': questions.length,
+      'completedDate': DateTime.now().toString().substring(0, 10),
+    };
+    await DBHelper().insertResult(resultData);
+  }
+
   void selectOption(int index) {
     if (submitted) return;
-
     setState(() {
       selectedIndex = index;
     });
@@ -58,6 +71,7 @@ class _ExamScreenState extends State<ExamScreen> {
       setState(() {
         submitted = true;
       });
+      saveResult(); // Save result when exam completes
     }
   }
 
@@ -73,11 +87,10 @@ class _ExamScreenState extends State<ExamScreen> {
       appBar: AppBar(
         title: Text("Exam - ${widget.courseName}"),
         backgroundColor: primary,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: submitted
             ? Center(
                 child: Column(
@@ -88,9 +101,7 @@ class _ExamScreenState extends State<ExamScreen> {
                       size: 80,
                       color: accent,
                     ),
-
-                    SizedBox(height: 15),
-
+                    const SizedBox(height: 15),
                     Text(
                       "Exam Completed",
                       style: TextStyle(
@@ -99,22 +110,18 @@ class _ExamScreenState extends State<ExamScreen> {
                         color: primary,
                       ),
                     ),
-
-                    SizedBox(height: 10),
-
+                    const SizedBox(height: 10),
                     Text(
                       "Score: $score / ${questions.length}",
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 20),
                     ),
-
-                    SizedBox(height: 20),
-
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primary,
                       ),
                       onPressed: exitExam,
-                      child: Text(
+                      child: const Text(
                         "Exit",
                         style: TextStyle(color: Colors.white),
                       ),
@@ -133,26 +140,22 @@ class _ExamScreenState extends State<ExamScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
-                  SizedBox(height: 15),
-
+                  const SizedBox(height: 15),
                   Text(
                     question["question"],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
-                  SizedBox(height: 20),
-
+                  const SizedBox(height: 20),
                   ...List.generate(
                     question["options"].length,
                     (index) => GestureDetector(
                       onTap: () => selectOption(index),
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        padding: EdgeInsets.all(12),
+                        margin: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
@@ -169,24 +172,20 @@ class _ExamScreenState extends State<ExamScreen> {
                       ),
                     ),
                   ),
-
-                  Spacer(),
-
+                  const Spacer(),
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             foregroundColor: primary,
-                            side: BorderSide(color: primary),
+                            side: const BorderSide(color: primary),
                           ),
                           onPressed: exitExam,
-                          child: Text("Exit"),
+                          child: const Text("Exit"),
                         ),
                       ),
-
-                      SizedBox(width: 10),
-
+                      const SizedBox(width: 10),
                       Expanded(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -198,7 +197,7 @@ class _ExamScreenState extends State<ExamScreen> {
                             currentIndex == questions.length - 1
                                 ? "Submit"
                                 : "Next",
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
