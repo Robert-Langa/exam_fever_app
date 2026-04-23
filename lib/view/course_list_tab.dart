@@ -1,10 +1,28 @@
 import 'package:exam_fever_app/view/add_course_screen.dart';
+import 'package:exam_fever_app/view/course_details.dart';
 import 'package:flutter/material.dart';
 
 class CoursesTab extends StatelessWidget {
   final List<Map<String, dynamic>> courses;
 
   const CoursesTab({super.key, required this.courses});
+
+  List<Map<String, dynamic>> get displayCourses {
+    if (courses.isNotEmpty) return courses;
+
+    return [
+      {
+        "title": "Mathematics",
+        "education": "Grade 12",
+        "exam": "Theory",
+      },
+      {
+        "title": "Physics",
+        "education": "Grade 11",
+        "exam": "Objective",
+      },
+    ];
+  }
 
   void goToAddCourse(BuildContext context) {
     Navigator.push(
@@ -15,11 +33,22 @@ class CoursesTab extends StatelessWidget {
     );
   }
 
+  void openCourseDetail(BuildContext context, Map<String, dynamic> course) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CourseDetailScreen(course: course),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final list = displayCourses;
+
     return Stack(
       children: [
-        courses.isEmpty
+        list.isEmpty
             ? Center(
                 child: Text(
                   "No courses added yet",
@@ -27,13 +56,12 @@ class CoursesTab extends StatelessWidget {
                 ),
               )
             : ListView.builder(
-                itemCount: courses.length,
+                itemCount: list.length,
                 itemBuilder: (context, index) {
-                  final course = courses[index];
+                  final course = list[index];
 
                   return Card(
-                    margin: EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 6),
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     child: ListTile(
                       leading: Icon(Icons.book, color: Colors.blueAccent),
                       title: Text(course['title'] ?? 'No Title'),
@@ -44,6 +72,23 @@ class CoursesTab extends StatelessWidget {
                           Text("Exam: ${course['exam'] ?? 'N/A'}"),
                         ],
                       ),
+
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit, color: Colors.orange),
+                            onPressed: () {},
+                          ),
+
+                          IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+
+                      onTap: () => openCourseDetail(context, course),
                     ),
                   );
                 },

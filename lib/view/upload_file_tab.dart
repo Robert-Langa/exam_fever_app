@@ -22,16 +22,24 @@ class _UploadFileTabState extends State<UploadFileTab> {
         fileName = result.files.single.name;
       });
 
-      // Simulate upload
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Uploading $fileName")),
       );
     } else {
-      // User canceled
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("No file selected")),
       );
     }
+  }
+
+  void cancelFile() {
+    setState(() {
+      fileName = "No file selected";
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Selection cleared")),
+    );
   }
 
   @override
@@ -47,12 +55,35 @@ class _UploadFileTabState extends State<UploadFileTab> {
               size: 110,
               color: Color(0xFF0D47A1),
             ),
+
             SizedBox(height: 30),
-            Text(
-              fileName,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Text(
+                    fileName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
+                SizedBox(width: 8),
+
+                if (fileName != "No file selected")
+                  GestureDetector(
+                    onTap: cancelFile,
+                    child: Icon(
+                      Icons.cancel,
+                      color: Colors.red,
+                      size: 22,
+                    ),
+                  ),
+              ],
             ),
+
             SizedBox(height: 30),
 
             ElevatedButton(
@@ -60,7 +91,10 @@ class _UploadFileTabState extends State<UploadFileTab> {
                 backgroundColor: Color(0xFF0D47A1),
               ),
               onPressed: pickAndUploadFile,
-              child: Text("Upload", style: TextStyle(color: Colors.white)),
+              child: Text(
+                "Upload",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
