@@ -7,32 +7,79 @@ class AiSearchTab extends StatefulWidget {
   State<AiSearchTab> createState() => _AiSearchTabState();
 }
 
+class ChatMessage {
+  final String text;
+  final bool isUser;
+
+  ChatMessage({required this.text, required this.isUser});
+}
+
 class _AiSearchTabState extends State<AiSearchTab> {
   final TextEditingController controller = TextEditingController();
-  String result = "";
 
-  void search() {
+  List<ChatMessage> messages = [
+    ChatMessage(
+      text: "Hello! I am Sasaharo🤖. How may I help you?",
+      isUser: false,
+    ),
+  ];
+
+  void sendMessage() {
+    if (controller.text.trim().isEmpty) return;
+
+    String userText = controller.text;
+
     setState(() {
-      result = controller.text.isEmpty
-          ? "Please enter something"
-          : "Result for: ${controller.text}";
+      // user message (right side)
+      messages.add(ChatMessage(text: userText, isUser: true));
+
+      // AI response (left side - fixed response)
+      messages.add(ChatMessage(
+        text: "Excellent. This is a very nice question.",
+        isUser: false,
+      ));
     });
+
     controller.clear();
+  }
+
+  Widget buildMessage(ChatMessage msg) {
+    return Align(
+      alignment: msg.isUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: EdgeInsets.all(12),
+        constraints: BoxConstraints(maxWidth: 250),
+        decoration: BoxDecoration(
+          color: msg.isUser ? Colors.orange : Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          msg.text,
+          style: TextStyle(
+            color: msg.isUser ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // CHAT AREA
         Expanded(
-          child: Center(
-            child: Text(
-              result.isEmpty ? "AI Search Coming Soon" : result,
-              style: TextStyle(fontSize: 16),
-            ),
+          child: ListView.builder(
+            padding: EdgeInsets.all(10),
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              return buildMessage(messages[index]);
+            },
           ),
         ),
 
+        // INPUT BOX
         Padding(
           padding: EdgeInsets.fromLTRB(12, 10, 12, 20),
           child: Material(
@@ -56,9 +103,9 @@ class _AiSearchTabState extends State<AiSearchTab> {
                     ),
                   ),
                   IconButton(
-                    onPressed: search,
+                    onPressed: sendMessage,
                     icon: Icon(Icons.send),
-                  )
+                  ),
                 ],
               ),
             ),

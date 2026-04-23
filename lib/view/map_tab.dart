@@ -1,4 +1,7 @@
+import 'package:exam_fever_app/view/active_questions_tab.dart';
+import 'package:exam_fever_app/view/view_map.dart';
 import 'package:flutter/material.dart';
+
 
 class MapTab extends StatelessWidget {
   const MapTab({super.key});
@@ -15,14 +18,14 @@ class MapTab extends StatelessWidget {
             indicatorColor: Colors.orange,
             tabs: [
               Tab(text: "View Map"),
-              Tab(text: "Locations"),
+              Tab(text: "Active Questions"),
             ],
           ),
           Expanded(
             child: TabBarView(
               children: [
-                Center(child: Text("Map View Screen")),
-                Center(child: Text("Saved Locations Screen")),
+                ViewMap(),
+                ActiveQuestions(),
               ],
             ),
           ),

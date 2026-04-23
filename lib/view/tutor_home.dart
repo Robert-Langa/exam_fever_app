@@ -1,4 +1,6 @@
 import 'package:exam_fever_app/view/ai_search_tab.dart';
+import 'package:exam_fever_app/view/chat_tab.dart';
+import 'package:exam_fever_app/view/map_tab.dart';
 import 'package:exam_fever_app/widgets/drawer_scaffold.dart';
 import 'package:flutter/material.dart';
 
@@ -15,21 +17,21 @@ class TutorHome extends StatelessWidget {
         body: Column(
           children: [
             TabBar(
-              labelColor: Colors.orange,
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: Colors.orange,
+                indicatorColor: Colors.orange,
+                labelColor: Colors.orange,
+                unselectedLabelColor: Colors.black,
               tabs: [
-                Tab(icon: Icon(Icons.map), text: "Map"),
-                Tab(icon: Icon(Icons.chat), text: "Chat"),
-                Tab(icon: Icon(Icons.search), text: "AI Search"),
+                Tab(icon: Icon(Icons.map,  size: 30), text: "Map"),
+                Tab(icon: Icon(Icons.chat,  size: 30), text: "Chat"),
+                Tab(icon: Icon(Icons.search,  size: 30), text: "AI Search"),
               ],
             ),
 
             Expanded(
               child: TabBarView(
                 children: [
-                  Center(child: Text("Map Screen")),
-                  Center(child: Text("Chat Screen")),
+                  MapTab(),
+                  ChatTab(),
                   AiSearchTab(), // reused existing student screen
                 ],
               ),

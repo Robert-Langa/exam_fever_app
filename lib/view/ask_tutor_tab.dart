@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ChatTab extends StatefulWidget {
-  const ChatTab({super.key});
+class AskTutorTab extends StatefulWidget {
+  const AskTutorTab({super.key});
 
   @override
-  State<ChatTab> createState() => _ChatTabState();
+  State<AskTutorTab> createState() => _AskTutorTabState();
 }
 
 class ChatMessage {
@@ -14,12 +14,12 @@ class ChatMessage {
   ChatMessage({required this.text, required this.isUser});
 }
 
-class _ChatTabState extends State<ChatTab> {
+class _AskTutorTabState extends State<AskTutorTab> {
   final TextEditingController controller = TextEditingController();
 
   List<ChatMessage> messages = [
     ChatMessage(
-      text: "Hello Tutor, I need your help. How to learn DSA in 5 Minutes",
+      text: "Hello I am here to help you with the problem.",
       isUser: false,
     ),
   ];
@@ -33,7 +33,7 @@ class _ChatTabState extends State<ChatTab> {
       messages.add(ChatMessage(text: userText, isUser: true));
 
       messages.add(ChatMessage(
-        text: "Thank you.",
+        text: "Here's how you can solve this question",
         isUser: false,
       ));
     });
@@ -93,7 +93,7 @@ class _ChatTabState extends State<ChatTab> {
                     child: TextField(
                       controller: controller,
                       decoration: InputDecoration(
-                        hintText: "Type a message...",
+                        hintText: "Ask your tutor...",
                         border: InputBorder.none,
                       ),
                     ),

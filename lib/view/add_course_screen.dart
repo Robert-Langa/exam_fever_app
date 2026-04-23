@@ -38,7 +38,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
         validators: [Validators.required],
       ),
 
-      // ✅ ADDRESS (required)
       'address': FormControl<String>(
         validators: [Validators.required],
       ),
